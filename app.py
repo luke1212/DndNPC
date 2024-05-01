@@ -7,8 +7,10 @@ demo = gr.Blocks()
 
 def chat_groq(audio_file):
     transcript = speech_to_text.speech_to_text(audio_file)
-    groq_response = groq_service.groq("answer in chinese:" + transcript)
-    return text_to_speech.text_to_speech(groq_response)
+    groq_chain = groq_service.lang_chain_groq()
+    groq_response = groq_chain.invoke(transcript)
+    print(groq_response["chat_history"])
+    return text_to_speech.openai_text_to_speech(groq_response["text"])
 
 if __name__ == "__main__":
    

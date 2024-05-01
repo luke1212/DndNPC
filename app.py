@@ -4,12 +4,13 @@ import text_to_speech as text_to_speech
 import groq_service as groq_service
 
 demo = gr.Blocks()
+groq_chain = groq_service.lang_chain_groq()
 
 def chat_groq(audio_file):
     transcript = speech_to_text.speech_to_text(audio_file)
-    groq_chain = groq_service.lang_chain_groq()
     groq_response = groq_chain.invoke(transcript)
-    print(groq_response["chat_history"])
+    print("History:\n\n" + groq_response["chat_history"])
+    print("Response:\n\n" + groq_response["text"])
     return text_to_speech.openai_text_to_speech(groq_response["text"])
 
 if __name__ == "__main__":

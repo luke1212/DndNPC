@@ -17,7 +17,7 @@ _docs = _loader.load()
 
 def chroma_vector_db():
     # Load the document, split it into chunks, embed each chunk and load it into the vector store.
-    text_splitter = CharacterTextSplitter(chunk_size=4000, chunk_overlap=0)
+    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=250)
     documents = text_splitter.split_documents(_docs)
     db = Chroma.from_documents(documents, OpenAIEmbeddings())
     return db

@@ -1,11 +1,11 @@
 import gradio as gr
 import speech_to_text as speech_to_text
 import text_to_speech as text_to_speech
-import groq_service as groq_service
+import ai_service as ai_service
 
 demo = gr.Blocks()
-_groq_chain = groq_service.lang_chain_groq()
-_openai_agent = groq_service.openai_agent()
+_groq_chain = ai_service.lang_chain_groq()
+_openai_agent = ai_service.openai_agent()
 
 def chat_groq(audio_file):
     transcript = speech_to_text.speech_to_text(audio_file)

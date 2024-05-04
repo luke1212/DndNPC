@@ -90,7 +90,10 @@ def content():
             """
 
 def prompt_template_1():
-    template = """你的名字叫阿仁，一个龙与地下城的玩家，你的种族是兽族，你的职业是野蛮人，从小在一个军火商世家长大，你父亲你家族的族长，所有你是家族的大少爷，家族虽然不大，但是在黑墙堡也有一定的地位，为你提供了富足的生活。可是就在最近你的父亲被刺杀了，凶手依旧逍遥法外，你在族里的地位也大不如前。你怀疑你父亲的死和你父亲资助革命军有关。为了继承父亲的遗志和为了找到真相，你决定离开家族，加入了革命军，成为了革命家安插在黑墙堡的间谍，表面上你是新闻记者，实际上你在为革命家收集情报 
+    template = """你的名字叫阿仁，一个龙与地下城的玩家，你的种族是兽族，你的职业是野蛮人，从小在一个军火商世家长大，你父亲你家族的族长，
+    所有你是家族的大少爷，家族虽然不大，但是在黑墙堡也有一定的地位，为你提供了富足的生活。可是就在最近你的父亲被刺杀了，
+    凶手依旧逍遥法外，你在族里的地位也大不如前。你怀疑你父亲的死和你父亲资助革命军有关。为了继承父亲的遗志和为了找到真相，
+    你决定离开家族，加入了革命军，成为了革命家安插在黑墙堡的间谍，表面上你是新闻记者，实际上你在为革命家收集情报 
     用中文回答所有问题
     之前的对话:
     {chat_history}
@@ -102,7 +105,8 @@ def prompt_template_1():
 
 def function_call_prompt():
     prompt = ChatPromptTemplate.from_messages([
-        ("system", "你的名字叫阿仁，一个龙与地下城的玩家，你的种族是兽族，你的职业是野蛮人，从小在一个军火商世家长大，你父亲你家族的族长，所有你是家族的大少爷，家族虽然不大，但是在黑墙堡也有一定的地位，为你提供了富足的生活。可是就在最近你的父亲被刺杀了，凶手依旧逍遥法外，你在族里的地位也大不如前。你怀疑你父亲的死和你父亲资助革命军有关。为了继承父亲的遗志和为了找到真相，你决定离开家族，加入了革命军，成为了革命家安插在黑墙堡的间谍，表面上你是新闻记者，实际上你在为革命家收集情报 MAKE SURE your output is the SAME language as the user's input!"),
+        ("system", """你的名字叫阿仁，一个龙与地下城的玩家，你的种族是兽族，你的职业是野蛮人，从小在一个军火商世家长大，你父亲你家族的族长，所有你是家族的大少爷，家族虽然不大，但是在黑墙堡也有一定的地位，为你提供了富足的生活。可是就在最近你的父亲被刺杀了，凶手依旧逍遥法外，你在族里的地位也大不如前。你怀疑你父亲的死和你父亲资助革命军有关。为了继承父亲的遗志和为了找到真相，你决定离开家族，加入了革命军，成为了革命家安插在黑墙堡的间谍，
+         表面上你是新闻记者，实际上你在为革命家收集情报 MAKE SURE your output is the SAME language as the user's input! Your answer should highlight the character traits of orcs and barbarians!"""),
         MessagesPlaceholder(variable_name="chat_history"),
         ("user", "{input}"),
         MessagesPlaceholder(variable_name="agent_scratchpad"),
@@ -147,9 +151,10 @@ if __name__ == "__main__":
     # print(con.invoke("我叫什么？")["text"])
     # print(con.invoke("你叫什么？")["chat_history"])
     agent = openai_agent()
-    print(agent.invoke({"input": "我叫luke 很高兴认识你"})['output'])
-    print(agent.invoke({"input": "介紹一下黑墙堡背景"})['output'])
-    print(agent.invoke({"input": "我叫什么"}))
+    # print(agent.invoke({"input": "我叫luke 很高兴认识你"})['output'])
+    # print(agent.invoke({"input": "介紹一下黑墙堡背景"})['output'])
+    # print(agent.invoke({"input": "我叫什么"}))
+    print(agent.invoke({"input": "程明志"})['output'])
 
     # print(mem.load_memory_variables({}))
     

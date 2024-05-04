@@ -120,7 +120,7 @@ def groq_agent():
 
 def initialize_agent_chain():
     functionList = [convert_to_openai_function(f) for f in tool_lib.tools]
-    model = ChatOpenAI(temperature=0).bind(functions=functionList)
+    model = ChatOpenAI().bind(functions=functionList)
     prompt = function_call_prompt()
     chain = prompt | model | OpenAIFunctionsAgentOutputParser()
     agent_chain = RunnablePassthrough.assign(

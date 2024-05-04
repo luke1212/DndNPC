@@ -5,13 +5,14 @@ import groq_service as groq_service
 
 demo = gr.Blocks()
 _groq_chain = groq_service.lang_chain_groq()
+_openai_agent = groq_service.openai_agent()
 
 def chat_groq(audio_file):
     transcript = speech_to_text.speech_to_text(audio_file)
-    groq_response = _groq_chain.invoke(transcript)
-    print("History:\n\n" + groq_response["chat_history"])
-    print("Response:\n\n" + groq_response["text"])
-    return text_to_speech.openai_text_to_speech(groq_response["text"])
+    response = _openai_agent.invoke({"input": transcript})
+    print(response['output'])
+    print('History:', '\n'.join([str(lst) for lst in response['chat_history']]))
+    return text_to_speech.openai_text_to_speech(response['output'])
 
 if __name__ == "__main__":
    
@@ -53,5 +54,7 @@ if __name__ == "__main__":
         demo.launch(share=True, 
             server_port= 8001)
         
-if __name__ == "__main__":
-    print("Hello World")
+# if __name__ == "__main__":
+#    print(_openai_agent.invoke({"input": "你好我叫luke 很高兴认识你"})['output'])
+#    print('History:', '\n'.join([str(lst) for lst in _openai_agent.invoke({"input": "你好我叫luke 很高兴认识你"})['chat_history']]))
+   

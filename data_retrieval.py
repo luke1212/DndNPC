@@ -7,10 +7,16 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain.load import dumps, loads
 
 _chroma_vector_db = vector_db.chroma_vector_db()
+_url_vector_db = vector_db.url_vector_db("https://legacy.reactjs.org/tutorial/tutorial.html", 2)
 
 def similarity_search(query):
     # Load the document, split it into chunks, embed each chunk and load it into the vector store.
     docs = _chroma_vector_db.similarity_search(query)
+    return docs
+
+def url_similarity_search(query):
+    # Load the document, split it into chunks, embed each chunk and load it into the vector store.
+    docs = _url_vector_db.similarity_search(query)
     return docs
 
 def data_contextual_compression_retriever(query):
@@ -24,5 +30,6 @@ def data_contextual_compression_retriever(query):
     return compressed_docs
 
 if __name__ == "__main__":
-    docs = similarity_search("萧湘")
-    print(docs)
+    docs = url_similarity_search("Dictionary Merge & Update Operators")
+    for doc in docs:
+        print(doc.metadata)

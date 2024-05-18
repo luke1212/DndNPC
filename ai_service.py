@@ -1,5 +1,6 @@
 from groq import Groq
 import os
+import vector_db
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
 from langchain.memory import ConversationBufferMemory
@@ -15,6 +16,8 @@ from langchain_openai import ChatOpenAI
 from langchain_core.utils.function_calling import convert_to_openai_function
 from langchain.agents.format_scratchpad import format_to_openai_functions
 from langchain.schema.runnable import RunnablePassthrough
+
+from langchain.chains import RetrievalQA
 
 from dotenv import load_dotenv, find_dotenv
 
@@ -143,6 +146,12 @@ def chat_memory():
     )
     return memory
 
+def chat_with_url(url,depth):
+    llm = ChatOpenAI(model_name='gpt-3.5-turbo')
+    db = vector_db.url_vector_db(url, depth)
+    qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=db.as_retriever(search_kwargs={"k": 4}),return_source_documents=True)
+    return qa
+
 if __name__ == "__main__":
     # con= lang_chain_openai()
     # print(con.invoke("我叫luke 很高兴认识你")["text"])
@@ -150,14 +159,15 @@ if __name__ == "__main__":
     # print(con.invoke("1+1=?")["text"])
     # print(con.invoke("我叫什么？")["text"])
     # print(con.invoke("你叫什么？")["chat_history"])
-    agent = openai_agent()
+    # agent = openai_agent()
     # print(agent.invoke({"input": "我叫luke 很高兴认识你"})['output'])
     # print(agent.invoke({"input": "介紹一下黑墙堡背景"})['output'])
     # print(agent.invoke({"input": "我叫什么"}))
-    print(agent.invoke({"input": "程明志"})['output'])
+    # print(agent.invoke({"input": "程明志"})['output'])
 
     # print(mem.load_memory_variables({}))
-    
+    qa = chat_with_url("https://docs.python.org/3.9/", 2)
+    print(qa.invoke("Dictionary Merge & Update Operators")['source_documents'][0].metadata['source'])
     
     
     
